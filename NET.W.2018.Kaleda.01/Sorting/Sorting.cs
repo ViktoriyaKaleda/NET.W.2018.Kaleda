@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Sorting
 {
@@ -110,7 +110,7 @@ namespace Sorting
 
 			CheckBorders(left, right, array.Length);
 
-			MergeSortRealization(array, 0, array.Length - 1);
+			MergeSortRealization(array, left, right);
 		}
 
 		/// <summary>
