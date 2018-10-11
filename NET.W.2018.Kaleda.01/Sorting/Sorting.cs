@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Sorting
 {
@@ -203,6 +203,9 @@ namespace Sorting
 
 			if (right > length - 1)
 				throw new ArgumentOutOfRangeException(nameof(right), "Going out of bounds for the array.");
+
+			if (left > right)
+				throw new ArgumentException("Left border should not be larger than the right.");
 		}
 
 		/// <summary>
