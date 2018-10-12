@@ -1,4 +1,6 @@
-﻿namespace BitsReplacement
+﻿using System;
+
+namespace BitsReplacement
 {
 	public static class BitsReplacement
 	{
@@ -12,6 +14,8 @@
 		/// <returns></returns>
 		public static int InsertBits(int firstNumber, int secondNumber, int i, int j)
 		{
+			CheckIndexes(i, j);
+
 			// Number of bits to replace.
 			int length = j - i + 1;
 
@@ -46,6 +50,19 @@
 		private static int ShiftRightSigned(int r, int s)
 		{
 			return s == 0 ? r : (r >> s) & ~(-1 << (32 - s));
+		}
+
+		private static void CheckIndexes(int i, int j)
+		{
+			if (i < 0 || j < 0)
+				throw new ArgumentOutOfRangeException(i < 0 ? nameof(i) : nameof(j), "Indexes must be non negative numbers.");
+
+			if (i > j)
+				throw new ArgumentException("Starting index should not be greater than ending index.");
+
+			int numberOfBitsInByte = 8;
+			if (j > sizeof(int) * numberOfBitsInByte)
+				throw new ArgumentOutOfRangeException(nameof(j), "Ending index must not be greater than length of Int32 bit representation.");
 		}
 	}
 }
