@@ -18,5 +18,16 @@ namespace BitsReplacementMSTests
 
 			Assert.AreEqual(result, expectedResult);
 		}
+
+		[TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
+		[DataRow(1, 1, -1, 0)]
+		[DataRow(1, 1, 0, -1)]
+		[DataRow(1, 1, -1, -1)]
+		[DataRow(1, 1, 5, 4)]
+		[DataRow(1, 1, 0, 40)]
+		public void InsertBits_InvalidIndexes_ArgumentOutOfRangeException(int firstNumber, int secondNumber, int i, int j)
+		{
+			BitsReplacement.BitsReplacement.InsertBits(firstNumber, secondNumber, i, j);
+		}
 	}
 }
