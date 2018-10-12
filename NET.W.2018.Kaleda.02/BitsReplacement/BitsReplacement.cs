@@ -52,6 +52,11 @@ namespace BitsReplacement
 			return s == 0 ? r : (r >> s) & ~(-1 << (32 - s));
 		}
 
+		/// <summary>
+		/// Checks if passed indexes are valid.
+		/// </summary>
+		/// <param name="i">Starting index.</param>
+		/// <param name="j">Ending index.</param>
 		private static void CheckIndexes(int i, int j)
 		{
 			if (i < 0 || j < 0)
