@@ -17,5 +17,23 @@ namespace FilterNUnitTests
 			var result = Filter.Filter.FilterDigit(digit, list);
 			CollectionAssert.AreEqual(result, expectedResult);
 		}
+		
+		[Test]
+		public void FilterDigit_NullArray_ArgumentNullException()
+		{
+			Assert.Throws<ArgumentNullException>(() => Filter.Filter.FilterDigit(0, null));
+		}
+
+		[Test]
+		public void FilterDigit_NegativeDigitParameter_ArgumentException()
+		{
+			Assert.Throws<ArgumentException>(() => Filter.Filter.FilterDigit(-1, null));
+		}
+
+		[Test]
+		public void FilterDigit_GreaterThan9DigitParameter_ArgumentException()
+		{
+			Assert.Throws<ArgumentException>(() => Filter.Filter.FilterDigit(10, null));
+		}
 	}
 }
