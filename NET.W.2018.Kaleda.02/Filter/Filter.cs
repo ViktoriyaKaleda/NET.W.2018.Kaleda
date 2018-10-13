@@ -8,9 +8,9 @@ namespace Filter
 {
     public static class Filter
     {
-		public static IEnumerable<int> FilterDigit(IEnumerable<int> list)
+		public static int[] FilterDigit(int digit, params int[] list)
 		{
-			return new List<int>();
+			return new int[] { };
 		}
-    }
+	}
 }
