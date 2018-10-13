@@ -19,14 +19,14 @@ namespace NthRootNUnitTests
 		public void FindNthRoot_ValidParametrs_NthRootOfNumber(double number, int n, double accuracy, double expectedResult)
 		{
 			double result = NthRoot.NthRoot.FindNthRoot(number, n, accuracy);
-			Assert.That(result, Is.EqualTo(expectedResult));
+			Assert.That(result, Is.InRange(expectedResult - accuracy, expectedResult + accuracy));
 		}
 
 		[Test]
 		[TestCase(1, 0, 0.0001)]
 		[TestCase(1, -1, 0.0001)]
 		[TestCase(1, 2, -1)]
-		public void FindNthRoot_InvalidDegree_ArgumentOutOfRangeException(double number, int n, double accuracy)
+		public void FindNthRoot_InvalidDegreeOrAccuracy_ArgumentOutOfRangeException(double number, int n, double accuracy)
 		{
 			Assert.Throws<ArgumentOutOfRangeException>(() => NthRoot.NthRoot.FindNthRoot(number, n, accuracy));
 		}
