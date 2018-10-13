@@ -49,6 +49,9 @@ namespace Filter
 		/// <returns>True if number contains specified digit, else false.</returns>
 		private static bool ContainsDigit(int number, int digit)
 		{
+			if (number < 0)
+				number = -number;
+
 			List<int> digits = new List<int>();
 
 			if (number == 0 && digit == 0)
