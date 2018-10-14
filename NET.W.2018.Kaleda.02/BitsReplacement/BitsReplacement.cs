@@ -66,7 +66,7 @@ namespace BitsReplacement
 				throw new ArgumentException("Starting index should not be greater than ending index.");
 
 			int numberOfBitsInByte = 8;
-			if (j > sizeof(int) * numberOfBitsInByte)
+			if (j >= sizeof(int) * numberOfBitsInByte)
 				throw new ArgumentOutOfRangeException(nameof(j), "Ending index must not be greater than length of Int32 bit representation.");
 		}
 	}

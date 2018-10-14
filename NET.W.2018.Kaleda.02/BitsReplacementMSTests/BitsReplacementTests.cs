@@ -23,7 +23,7 @@ namespace BitsReplacementMSTests
 		[DataRow(1, 1, -1, 0)]
 		[DataRow(1, 1, 0, -1)]
 		[DataRow(1, 1, -1, -1)]
-		[DataRow(1, 1, 0, 40)]
+		[DataRow(1, 1, 0, 32)]
 		public void InsertBits_InvalidIndexes_ArgumentOutOfRangeException(int firstNumber, int secondNumber, int i, int j)
 		{
 			BitsReplacement.BitsReplacement.InsertBits(firstNumber, secondNumber, i, j);

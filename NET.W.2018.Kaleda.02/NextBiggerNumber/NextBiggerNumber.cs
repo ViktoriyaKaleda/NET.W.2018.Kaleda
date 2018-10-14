@@ -60,5 +60,40 @@ namespace NextBiggerNumber
 			digits.Reverse();
 			return Convert.ToInt32(string.Join("", digits.Select(d => d.ToString())));
 		}
+
+		/// <summary>
+		/// Finds the next bigger number formed by the same digits and execution time.
+		/// </summary>
+		/// <param name="number">Number for find.</param>
+		/// <param name="executionTime">Time of finding the number.</param>
+		/// <returns>The next bigger number formed by the same digits.</returns>
+		public static int FindNextBiggerNumberWithExecutionTime(int number, out TimeSpan executionTime)
+		{
+			var timer = System.Diagnostics.Stopwatch.StartNew();
+
+			int result = FindNextBiggerNumber(number);
+
+			timer.Stop();
+
+			executionTime = timer.Elapsed;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Finds the next bigger number formed by the same digits and execution time.
+		/// </summary>
+		/// <param name="number">Number for find.</param>
+		/// <returns>Tuple of two values: the next bigger number formed by the same digits and execution time.</returns>
+		public static (int result, TimeSpan executionTime) FindNextBiggerNumberWithExecutionTime(int number)
+		{
+			var timer = System.Diagnostics.Stopwatch.StartNew();
+
+			int result = FindNextBiggerNumber(number);
+
+			timer.Stop();
+
+			return (result, timer.Elapsed);
+		}
 	}
 }
