@@ -3,14 +3,36 @@ using System.Collections.Generic;
 
 namespace Polynomial
 {
+	/// <summary>
+	/// Immutable class for working with polynomials.
+	/// </summary>
 	public sealed class Polynomial : IEquatable<Polynomial>
 	{
+		/// <summary>
+		/// Constant that contains accuracy of operations with polynomial.
+		/// </summary>
 		private const double accuracy = 1e-10;
 
+		/// <summary>
+		/// Property that contains coefficients of the polynomial.
+		/// </summary>
 		public double[] Coefficients { get; private set; }
 
+		/// <summary>
+		/// The degree of the polynomial.
+		/// </summary>
 		public int Degree { get => Coefficients.Length - 1; }
 
+		/// <summary>
+		/// Initialize new instance of Polynomial class. 
+		/// </summary>
+		/// <param name="coefficients">
+		/// Values of polynomial coefficients. 
+		/// The first value is the coefficient of the highest degree, 
+		/// the last value will be the free member.
+		/// </param>
+		/// <exception cref="ArgumentException">Throws when passed array is empty.</exception>
+		/// <exception cref="ArgumentNullException">Throws when passed array is null.</exception>
 		public Polynomial(params double[] coefficients)
 		{
 			if (coefficients == Array.Empty<double>())
@@ -23,6 +45,12 @@ namespace Polynomial
 			Array.Copy(coefficients, Coefficients, coefficients.Length);
 		}
 
+		/// <summary>
+		/// Indexator which get access to coefficient with passed index.
+		/// </summary>
+		/// <param name="index">Index in the coefficient array.</param>
+		/// <exception cref="ArgumentOutOfRangeException">Throws when passed index is negative
+		/// or greater than the coefficients array length - 1.</exception>
 		public double this[int index]
 		{
 			get
@@ -41,6 +69,11 @@ namespace Polynomial
 			}
 		}
 
+		/// <summary>
+		/// Returns true if passed polynomial is equals to current or false otherwise.
+		/// </summary>
+		/// <param name="other">Polynomial to comparison.</param>
+		/// <returns>True if passed polynomial is equals to current or false otherwise.</returns>
 		public bool Equals(Polynomial other)
 		{
 			if (this.Degree != other.Degree)
@@ -53,6 +86,11 @@ namespace Polynomial
 			return true;
 		}
 
+		/// <summary>
+		/// Returns true if passed object is equals to current or false otherwise.
+		/// </summary>
+		/// <param name="other">Object to comparison.</param>
+		/// <returns>True if passed object is equals to current or false otherwise.</returns>
 		public override bool Equals(object other)
 		{
 			if (other is Polynomial)
@@ -62,6 +100,10 @@ namespace Polynomial
 			return false;
 		}
 
+		/// <summary>
+		/// Returns hash code of the polynomial.
+		/// </summary>
+		/// <returns>The hash code.</returns>
 		public override int GetHashCode()
 		{
 			int hash = 0;
@@ -76,12 +118,23 @@ namespace Polynomial
 			return hash;
 		}
 
+		/// <summary>
+		/// Returns true if passed polynomials are equals or false otherwise.
+		/// </summary>
+		/// <param name="other">Object to comparison.</param>
+		/// <returns>True if passed polynomials are equals or false otherwise.</returns>
 		public static bool operator ==(Polynomial p1, Polynomial p2)
 			=> p1.Equals(p2);
 
 		public static bool operator !=(Polynomial p1, Polynomial p2)
 			=> !(p1.Equals(p2));
 
+		/// <summary>
+		/// Adds number to polynomial.
+		/// </summary>
+		/// <param name="p1">The first polynomial.</param>
+		/// <param name="p2">The second polynomial.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator +(Polynomial p1, Polynomial p2)
 		{
 			(p1, p2) = TransformToSameDegree(p1, p2);
@@ -93,12 +146,29 @@ namespace Polynomial
 			return new Polynomial(resultCoefficients);
 		}
 
+		/// <summary>
+		/// Adds number to polynomial.
+		/// </summary>
+		/// <param name="p">The polynomial to add.</param>
+		/// <param name="number">The number to add.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator +(Polynomial p, double number)
 			=> p.Add(number);
 
+		/// <summary>
+		/// Adds number to polynomial.
+		/// </summary>
+		/// <param name="number">The number to add.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator +(double number, Polynomial p)
 			=> p.Add(number);
 
+		/// <summary>
+		/// Subtracts the second polynomial from the first.
+		/// </summary>
+		/// <param name="p1">The fisrt polynomial.</param>
+		/// <param name="p2">The second polynomial.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator -(Polynomial p1, Polynomial p2)
 		{
 			(p1, p2) = TransformToSameDegree(p1, p2);
@@ -110,15 +180,37 @@ namespace Polynomial
 			return new Polynomial(resultCoefficients);
 		}
 
+		/// <summary>
+		/// Subtracts number from polynomial.
+		/// </summary>
+		/// <param name="p">The polynomial from which subtract.</param>
+		/// <param name="number">The number which subtract from the polynomial.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator -(Polynomial p, double number)
 			=> p.Subtract(number);
 
+		/// <summary>
+		/// Subtracts polynomial from number.
+		/// </summary>
+		/// <param name="number">The number from which subtract.</param>
+		/// <param name="p">The polynomial which subtract from the number.</param>
+		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator -(double number, Polynomial p)
 			=> new Polynomial(number) - p;
 
+		/// <summary>
+		/// Adds passed polynomial to current.
+		/// </summary>
+		/// <param name="number">The polynomial to add.</param>
+		/// <returns>Result polynomial.</returns>
 		public Polynomial Add(Polynomial p)
 			=> this + p;
 
+		/// <summary>
+		/// Adds number to polynomial.
+		/// </summary>
+		/// <param name="number">The number to add.</param>
+		/// <returns>Result polynomial.</returns>
 		public Polynomial Add(double number)
 		{
 			var resultCoefficients = new double[Coefficients.Length];
@@ -127,9 +219,19 @@ namespace Polynomial
 			return new Polynomial(resultCoefficients);
 		}
 
+		/// <summary>
+		/// Subtracts passed polynomial from current.
+		/// </summary>
+		/// <param name="number">The number to subtract.</param>
+		/// <returns>Result polynomial.</returns>
 		public Polynomial Subtract(Polynomial p)
 			=> this - p;
 
+		/// <summary>
+		/// Subtracts number from polynomial.
+		/// </summary>
+		/// <param name="number">The number to subtract.</param>
+		/// <returns>Result polynomial.</returns>
 		public Polynomial Subtract(double number)
 		{
 			var resultCoefficients = new double[Coefficients.Length];
@@ -138,6 +240,10 @@ namespace Polynomial
 			return new Polynomial(resultCoefficients);
 		}
 
+		/// <summary>
+		/// Returns polynomial string reprezentation.
+		/// </summary>
+		/// <returns>Polynomial string reprezentation.</returns>
 		public override string ToString()
 		{
 			List<string> result = new List<string>();
@@ -154,6 +260,12 @@ namespace Polynomial
 			return String.Join(" + ", result);
 		}
 
+		/// <summary>
+		/// Expand the smallest coefficients array of two polynomials by filling the highest degrees with 0.
+		/// </summary>
+		/// <param name="p1">The fist polynomial.</param>
+		/// <param name="p2">The second polynomial.</param>
+		/// <returns>Two polynomials with the same coefficients array size in the same order that passed.</returns>
 		private static (Polynomial p1, Polynomial p2) TransformToSameDegree(Polynomial p1, Polynomial p2)
 		{
 			if (p1.Degree > p2.Degree)
@@ -168,6 +280,11 @@ namespace Polynomial
 			return p1.Degree > p2.Degree ? (biggerPolynomial, smallerPolynomial) : (smallerPolynomial, biggerPolynomial);
 		}
 
+		/// <summary>
+		/// Swap to polynomial objects.
+		/// </summary>
+		/// <param name="p1">The first value to swap.</param>
+		/// <param name="p2">The second value to swap.</param>
 		private static void Swap(ref Polynomial p1, ref Polynomial p2)
 		{
 			var temp = p1;
