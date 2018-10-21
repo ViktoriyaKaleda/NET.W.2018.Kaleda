@@ -21,7 +21,16 @@ namespace Polynomial
 		/// <summary>
 		/// The degree of the polynomial.
 		/// </summary>
-		public int Degree { get => Coefficients.Length - 1; }
+		public int Degree
+		{
+			get
+			{
+				for (int i = 0; i < Coefficients.Length; i++)
+					if (Coefficients[i] != 0)
+						return Coefficients.Length - i - 1;
+				return 0;
+			}
+		}
 
 		/// <summary>
 		/// Initialize new instance of Polynomial class. 
@@ -35,11 +44,11 @@ namespace Polynomial
 		/// <exception cref="ArgumentNullException">Throws when passed array is null.</exception>
 		public Polynomial(params double[] coefficients)
 		{
-			if (coefficients == Array.Empty<double>())
-				throw new ArgumentException("The array can not be empty.", nameof(coefficients));
-
 			if (coefficients == null)
 				throw new ArgumentNullException(nameof(coefficients), "The value can not be undefined.");
+
+			if (coefficients.Length == 0)
+				throw new ArgumentException("The array can not be empty.", nameof(coefficients));			
 
 			Coefficients = new double[coefficients.Length];
 			Array.Copy(coefficients, Coefficients, coefficients.Length);
@@ -79,8 +88,11 @@ namespace Polynomial
 			if (this.Degree != other.Degree)
 				return false;
 
+			var current = this;
+			(current, other) = TransformToSameLength(this, other);
+
 			for (int i = 0; i < Coefficients.Length; i++)
-				if (Math.Abs(this.Coefficients[i] - other.Coefficients[i]) > accuracy)
+				if (Math.Abs(current.Coefficients[i] - other.Coefficients[i]) > accuracy)
 					return false;
 
 			return true;
@@ -137,7 +149,7 @@ namespace Polynomial
 		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator +(Polynomial p1, Polynomial p2)
 		{
-			(p1, p2) = TransformToSameDegree(p1, p2);
+			(p1, p2) = TransformToSameLength(p1, p2);
 			var resultCoefficients = new double[p1.Coefficients.Length];
 
 			for (int i = 0; i < resultCoefficients.Length; i++)
@@ -171,7 +183,7 @@ namespace Polynomial
 		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator -(Polynomial p1, Polynomial p2)
 		{
-			(p1, p2) = TransformToSameDegree(p1, p2);
+			(p1, p2) = TransformToSameLength(p1, p2);
 			var resultCoefficients = new double[p1.Coefficients.Length];
 
 			for (int i = 0; i < resultCoefficients.Length; i++)
@@ -247,15 +259,21 @@ namespace Polynomial
 		public override string ToString()
 		{
 			List<string> result = new List<string>();
+			int length = Coefficients.Length - 1;
 
-			for (int i = 0; i < Degree; i++)
+			for (int i = 0; i < length; i++)
 			{
 				if (Coefficients[i] != 0)
-					result.Add($"{Coefficients[i].ToString()}*x^{Degree - i}");
+				{
+					if (Coefficients[i] == 1)
+						result.Add("x" + (length - i == 1 ? "" : $"^{length - i}"));
+					else
+						result.Add($"{Coefficients[i].ToString()}*x" + (length - i == 1 ? "" : $"^{length - i}"));
+				}
 			}
 
-			if (Coefficients[Degree] != 0)
-				result.Add($"{Coefficients[Degree]}");
+			if (Coefficients[length] != 0)
+				result.Add($"{Coefficients[length]}");
 
 			return String.Join(" + ", result);
 		}
@@ -266,10 +284,14 @@ namespace Polynomial
 		/// <param name="p1">The fist polynomial.</param>
 		/// <param name="p2">The second polynomial.</param>
 		/// <returns>Two polynomials with the same coefficients array size in the same order that passed.</returns>
-		private static (Polynomial p1, Polynomial p2) TransformToSameDegree(Polynomial p1, Polynomial p2)
+		private static (Polynomial p1, Polynomial p2) TransformToSameLength(Polynomial p1, Polynomial p2)
 		{
-			if (p1.Degree > p2.Degree)
+			bool isSwapped = false;
+			if (p1.Coefficients.Length > p2.Coefficients.Length)
+			{
 				Swap(ref p1, ref p2);
+				isSwapped = true;
+			}
 
 			var smallerPolynomialCoefficients = new double[p2.Coefficients.Length];
 			Array.Copy(p1.Coefficients, 0, smallerPolynomialCoefficients, p2.Coefficients.Length - p1.Coefficients.Length, p1.Coefficients.Length);
@@ -277,7 +299,7 @@ namespace Polynomial
 			var smallerPolynomial = new Polynomial(smallerPolynomialCoefficients);
 			var biggerPolynomial = p2;
 
-			return p1.Degree > p2.Degree ? (biggerPolynomial, smallerPolynomial) : (smallerPolynomial, biggerPolynomial);
+			return isSwapped ? (biggerPolynomial, smallerPolynomial) : (smallerPolynomial, biggerPolynomial);
 		}
 
 		/// <summary>
