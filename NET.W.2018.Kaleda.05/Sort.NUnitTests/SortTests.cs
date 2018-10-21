@@ -65,8 +65,8 @@ namespace Sort.NUnitTests
 		[Test]
 		public void Sort_NullParameters_ArgumentNullException()
 		{
-			Assert.Throws<ArgumentNullException>(() => BubleSort.BubbleSort.Sort(null, new Comparers.ByAscendingMaxElements()));
-			Assert.Throws<ArgumentNullException>(() => BubleSort.BubbleSort.Sort(testArray, null));
+			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(null, new Comparers.ByAscendingMaxElements()));
+			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(testArray, null));
 		}
 
 		[Test]
@@ -75,7 +75,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByAscendingRowElementsSums();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByAscendingSum, result);
 		}
@@ -86,7 +86,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByDescendingRowElementsSums();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByDescendingSum, result);
 		}
@@ -97,7 +97,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByAscendingMaxElements();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByAscendingMax, result);
 		}
@@ -108,7 +108,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByDescendingMaxElements();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByDescendingMax, result);
 		}
@@ -119,7 +119,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByAscendingMinElements();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByAscendingMin, result);
 		}
@@ -129,7 +129,7 @@ namespace Sort.NUnitTests
 			var comparer = new Comparers.ByDescendingMinElements();
 			var result = GetCopy(testArray);
 
-			BubleSort.BubbleSort.Sort(result, comparer);
+			BubbleSort.BubbleSort.Sort(result, comparer);
 
 			CollectionAssert.AreEqual(testArraySortedByDescendingMin, result);
 		}

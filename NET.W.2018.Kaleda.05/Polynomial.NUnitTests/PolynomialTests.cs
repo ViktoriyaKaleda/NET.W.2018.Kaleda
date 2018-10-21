@@ -91,7 +91,7 @@ namespace Polinomial.NUnitTests
 			CollectionAssert.AreEqual(result.Coefficients, expectedResult);
 		}
 
-		[TestCase(new double[] {1, 2, 3}, "x^2 + 2*x + 3")]
+		[TestCase(new double[] { 1, 2, 3 }, "x^2 + 2*x + 3")]
 		[TestCase(new double[] { 0 }, "")]
 		[TestCase(new double[] { 1 }, "1")]
 		[TestCase(new double[] { 1, 2, 0, 3 }, "x^3 + 2*x^2 + 3")]

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BubleSort
+namespace BubbleSort
 {
 	/// <summary>
 	/// Class for sorting jagged arrays.
 	/// </summary>
 	public static class BubbleSort
-    {
+	{
 		/// <summary>
 		/// Sorts jagged array.
 		/// </summary>
@@ -57,5 +57,5 @@ namespace BubleSort
 			a = b;
 			b = temp;
 		}
-    }
+	}
 }
