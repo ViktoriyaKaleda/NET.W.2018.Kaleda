@@ -9,7 +9,7 @@ namespace BubleSort
 	/// <summary>
 	/// Class for sorting jagged arrays.
 	/// </summary>
-	public static class BubleSort
+	public static class BubbleSort
     {
 		/// <summary>
 		/// Sorts jagged array.
