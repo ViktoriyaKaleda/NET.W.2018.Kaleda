@@ -6,7 +6,7 @@ namespace Polynomial
 	/// <summary>
 	/// Immutable class for working with polynomials.
 	/// </summary>
-	public sealed class Polynomial : IEquatable<Polynomial>
+	public sealed class Polynomial : IEquatable<Polynomial>, ICloneable
 	{
 		/// <summary>
 		/// Constant that contains accuracy of operations with polynomial.
@@ -142,6 +142,20 @@ namespace Polynomial
 			=> !(p1.Equals(p2));
 
 		/// <summary>
+		/// Clones this polynomial.
+		/// </summary>
+		/// <returns>The clone of this polynomial.</returns>
+		public Polynomial Clone()
+			=> new Polynomial(this.Coefficients);
+
+		/// <summary>
+		/// Clones this polynomial.
+		/// </summary>
+		/// <returns>The clone of this polynomial.</returns>
+		object ICloneable.Clone()
+			=> this.Clone();
+
+		/// <summary>
 		/// Adds number to polynomial.
 		/// </summary>
 		/// <param name="p1">The first polynomial.</param>
@@ -209,6 +223,50 @@ namespace Polynomial
 		/// <returns>Result polynomial.</returns>
 		public static Polynomial operator -(double number, Polynomial p)
 			=> new Polynomial(number) - p;
+		
+		/// <summary>
+		/// Multiply the first polynomial by the second.
+		/// </summary>
+		/// <param name="p1">The first polynomial.</param>
+		/// <param name="p2">The second polynomial.</param>
+		/// <returns>Result polynomial.</returns>
+		public static Polynomial operator *(Polynomial p1, Polynomial p2)
+		{
+			var singlePolynomial = new Polynomial(new double[] { 1 });
+			if (p1 == singlePolynomial || p2 == singlePolynomial)
+				return p1 == singlePolynomial ? p2 : p1;
+
+			(p1, p2) = TransformToSameLength(p1, p2);
+			var resultCoefficients = new double[p1.Degree + p2.Degree + 1];
+
+			for (int i = 0; i <= p1.Degree; i++)
+			{
+				for (int j = 0; j <= p2.Degree; j++)
+				{
+					resultCoefficients[i + j] += p1[i] * p2[j];
+				}
+			}
+
+			return new Polynomial(resultCoefficients);
+		}
+
+		/// <summary>
+		/// Multiply the passed polynomial by the number.
+		/// </summary>
+		/// <param name="p">The polynomial for multiplying.</param>
+		/// <param name="number">The number for multiplying.</param>
+		/// <returns>Result polynomial.</returns>
+		public static Polynomial operator *(Polynomial p, double number)
+			=> p.Multiply(number);
+
+		/// <summary>
+		/// Multiply the passed polynomial by the number.
+		/// </summary>
+		/// <param name="number">The number for multiplying.</param>
+		/// <param name="p">The polynomial for multiplying.</param>
+		/// <returns>Result polynomial.</returns>
+		public static Polynomial operator *(double number, Polynomial p)
+			=> p.Multiply(number);
 
 		/// <summary>
 		/// Adds passed polynomial to current.
@@ -249,6 +307,29 @@ namespace Polynomial
 			var resultCoefficients = new double[Coefficients.Length];
 			Array.Copy(Coefficients, resultCoefficients, resultCoefficients.Length);
 			resultCoefficients[resultCoefficients.Length - 1] -= number;
+			return new Polynomial(resultCoefficients);
+		}
+
+		/// <summary>
+		/// Multiply the current polynomial by the passed.
+		/// </summary>
+		/// <param name="p">The polynomial for multiplying.</param>
+		/// <returns>Result polynomial.</returns>
+		public Polynomial Multiply(Polynomial p)
+			=> this * p;
+
+		/// <summary>
+		/// Multiply the current polynomial by the passed number.
+		/// </summary>
+		/// <param name="p">The number for multiplying.</param>
+		/// <returns>Result polynomial.</returns>
+		public Polynomial Multiply(double number)
+		{
+			var resultCoefficients = new double[this.Coefficients.Length];
+
+			for (int i = 0; i < this.Coefficients.Length; i++)
+				resultCoefficients[i] = this[i] * number;
+
 			return new Polynomial(resultCoefficients);
 		}
 

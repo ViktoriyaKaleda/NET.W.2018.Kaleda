@@ -91,6 +91,26 @@ namespace Polinomial.NUnitTests
 			CollectionAssert.AreEqual(result.Coefficients, expectedResult);
 		}
 
+		[TestCaseSource("MultiplicationParametersCases")]
+		public void MultiplyOperator_ValidData_Composition(double[] coefficents1, double[] coefficents2, double[] expectedResult)
+		{
+			var p1 = new Polynomial.Polynomial(coefficents1);
+			var p2 = new Polynomial.Polynomial(coefficents2);
+			var result = p1 * p2;
+
+			CollectionAssert.AreEqual(result.Coefficients, expectedResult);
+		}
+
+		[TestCaseSource("MultiplicationParametersCases")]
+		public void Multiply_ValidData_Compositoin(double[] coefficents1, double[] coefficents2, double[] expectedResult)
+		{
+			var p1 = new Polynomial.Polynomial(coefficents1);
+			var p2 = new Polynomial.Polynomial(coefficents2);
+			var result = p1.Multiply(p2);
+
+			CollectionAssert.AreEqual(result.Coefficients, expectedResult);
+		}
+
 		[TestCase(new double[] { 1, 2, 3 }, "x^2 + 2*x + 3")]
 		[TestCase(new double[] { 0 }, "")]
 		[TestCase(new double[] { 1 }, "1")]
@@ -127,6 +147,16 @@ namespace Polinomial.NUnitTests
 			new object[] { new double[] { 1, 2, 3 }, new double[] { 0 }, new double[] { 1, 2, 3 } },
 			new object[] { new double[] { 0 }, new double[] { 5, 2, 1 }, new double[] { -5, -2, -1 } },
 			new object[] { new double[] { 2, 3, 4 }, new double[] { 3, 4, 5 }, new double[] { -1, -1, -1 } }
+		};
+
+		public static object[] MultiplicationParametersCases =
+		{
+			new object[] {new double[] { 1, 2, 3 }, new double[] { 1, 2, 3 }, new double[] { 1, 4, 10, 12, 9 } },
+			new object[] {new double[] { -1, -3, 4 }, new double[] { 1 }, new double[] { -1, -3, 4 } },
+			new object[] {new double[] { -1, -3, 4 }, new double[] { 1, 2, 3 }, new double[] { -1, -5, -5, -1, 12 } },
+			new object[] {new double[] { 1 }, new double[] { 1 }, new double[] { 1 } },
+			new object[] {new double[] { 1 }, new double[] { 0 }, new double[] { 0 } },
+			new object[] {new double[] { 0 }, new double[] { 5, 2, 1 }, new double[] { 0, 0, 0 } }
 		};
 	}
 }
