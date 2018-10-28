@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Books.Entities
 {
@@ -7,7 +8,7 @@ namespace Books.Entities
 		/// <summary>
 		/// ISBN of the book.
 		/// </summary>
-		public Guid Isbn { get; set; }
+		public string Isbn { get; set; }
 
 		/// <summary>
 		/// Author of the book.
@@ -73,16 +74,21 @@ namespace Books.Entities
 		}
 
 		/// <summary>
+		/// The book tags.
+		/// </summary>
+		public List<string> Tags { get; set; }
+
+		/// <summary>
 		/// Returns true if passed book is equals to current or false otherwise.
 		/// </summary>
 		/// <param name="book">The book to comparison.</param>
 		/// <returns>True if passed book is equals to current or false otherwise.</returns>
 		public bool Equals(Book book)
 		{
-			if (this.Isbn.Equals(book.Isbn))
-				return true;
+			if ((object)book == null)
+				return false;
 
-			return false;
+			return this.Isbn.Equals(book.Isbn);
 		}
 
 		/// <summary>
@@ -92,10 +98,12 @@ namespace Books.Entities
 		/// <returns>True if passed object is equals to current or false otherwise.</returns>
 		public override bool Equals(object other)
 		{
+			if (other == null)
+				return false;
+
 			if (other is Book)
-			{
 				return Equals((Book)other);
-			}
+			
 			return false;
 		}
 
@@ -106,6 +114,11 @@ namespace Books.Entities
 		public override int GetHashCode()
 		{
 			return this.Isbn.GetHashCode();
+		}
+
+		public override string ToString()
+		{
+			return $"{Name} by {Author.FirstName} {Author.LastName}";
 		}
 	}
 }

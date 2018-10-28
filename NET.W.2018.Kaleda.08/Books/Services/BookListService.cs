@@ -8,7 +8,7 @@ using Books.Repositories;
 
 namespace Books.Services
 {
-	class BookListService : IBookListService
+	public class BookListService : IBookListService
 	{
 		private IBookListRepository _repository;
 
@@ -19,17 +19,25 @@ namespace Books.Services
 
 		public void AddBook(Book book)
 		{
-			throw new NotImplementedException();
+			_repository.AddBook(book);
+			_repository.SaveBookList();
 		}
 
-		public Book FindBookByTag(string tag)
+		public List<Book> FindBooksByTag(string tag)
 		{
-			throw new NotImplementedException();
+			var result = new List<Book>();
+			foreach (var book in _repository.Books)
+			{
+				if (book.Tags.Contains(tag))
+					result.Add(book);
+			}
+			return result;
 		}
 
 		public void RemoveBook(Book book)
 		{
-			throw new NotImplementedException();
+			_repository.RemoveBook(book);
+			_repository.SaveBookList();
 		}
 
 		public void SortBooksByTag()

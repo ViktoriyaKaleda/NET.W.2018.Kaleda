@@ -13,7 +13,7 @@ namespace Books.Repositories
 
 		void RemoveBook(Book book);
 
-		void SaveBookList(List<Book> books);
+		void SaveBookList();
 
 		void ClearBookList();
 	}

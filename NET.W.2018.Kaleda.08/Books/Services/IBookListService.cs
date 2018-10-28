@@ -1,4 +1,5 @@
 ﻿using Books.Entities;
+using System.Collections.Generic;
 
 namespace Books.Services
 {
@@ -8,7 +9,7 @@ namespace Books.Services
 
 		void RemoveBook(Book book);
 
-		Book FindBookByTag(string tag);
+		List<Book> FindBooksByTag(string tag);
 
 		void SortBooksByTag();
 	}
