@@ -85,6 +85,9 @@ namespace Polynomial
 		/// <returns>True if passed polynomial is equals to current or false otherwise.</returns>
 		public bool Equals(Polynomial other)
 		{
+			if ((object)other == null)
+				return false;
+
 			if (this.Degree != other.Degree)
 				return false;
 
@@ -105,6 +108,9 @@ namespace Polynomial
 		/// <returns>True if passed object is equals to current or false otherwise.</returns>
 		public override bool Equals(object other)
 		{
+			if (other == null)
+				return false;
+
 			if (other is Polynomial)
 			{
 				return Equals((Polynomial)other);

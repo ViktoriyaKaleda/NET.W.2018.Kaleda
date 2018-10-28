@@ -51,6 +51,16 @@ namespace Polinomial.NUnitTests
 			Assert.That(p1 == p2, Is.True);
 		}
 
+		[Test]
+		public void Equals_NullParameter_False()
+		{
+			var p1 = new Polynomial.Polynomial(new double[] { 1 });
+			Polynomial.Polynomial p2 = null;
+
+			Assert.That(p1.Equals(p2), Is.False);
+			Assert.That(p1.Equals((object)p2), Is.False);
+		}
+
 		[TestCaseSource("AdditionParametersCases")]
 		public void PlusOperator_ValidData_Sum(double[] coefficents1, double[] coefficents2, double[] expectedResult)
 		{
