@@ -49,7 +49,7 @@ namespace Books.Repositories
 					{
 						Isbn = isbn,
 						Author = author,
-						Name = bookName,
+						Title = bookName,
 						PublishingHouse = publishingHouse,
 						PublishingYear = publishingYear,
 						NumberOfPages = numberOfPages,
@@ -91,7 +91,7 @@ namespace Books.Repositories
 					writer.Write(book.Isbn);
 					writer.Write(book.Author.FirstName);
 					writer.Write(book.Author.LastName);
-					writer.Write(book.Name);
+					writer.Write(book.Title);
 					writer.Write(book.PublishingHouse.Name);
 					writer.Write(book.PublishingYear);
 					writer.Write(book.NumberOfPages);

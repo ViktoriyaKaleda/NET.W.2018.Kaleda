@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Books.Entities
 {
-	public class Book : IEquatable<Book>
+	public class Book : IEquatable<Book>, IFormattable
 	{
 		/// <summary>
 		/// ISBN of the book.
@@ -18,7 +19,7 @@ namespace Books.Entities
 		/// <summary>
 		/// Book name.
 		/// </summary>
-		public string Name { get; set; }
+		public string Title { get; set; }
 
 		/// <summary>
 		/// House of publishing of the book.
@@ -78,6 +79,8 @@ namespace Books.Entities
 		/// </summary>
 		public List<string> Tags { get; set; }
 
+		private static string DefaultFormat { get => "AT"; }
+
 		/// <summary>
 		/// Returns true if passed book is equals to current or false otherwise.
 		/// </summary>
@@ -118,7 +121,47 @@ namespace Books.Entities
 
 		public override string ToString()
 		{
-			return $"{Name} by {Author.FirstName} {Author.LastName}";
+			return ToString(DefaultFormat, null);
+		}
+
+		public string ToString(string format)
+			=> ToString(format, CultureInfo.CurrentCulture);
+
+		public string ToString(string format, IFormatProvider formatProvider)
+		{
+			if (string.IsNullOrEmpty(format))
+				format = DefaultFormat;
+
+			if (formatProvider == null)
+				formatProvider = CultureInfo.CurrentCulture;
+
+			switch (format.ToUpper())
+			{
+				case "F":
+					return string.Format(formatProvider, "ISBN 13: {0}, {1}, {2}, \"{3}\", {4}, P. {5}, {6:C}", 
+						Isbn, Author, Title, PublishingHouse, PublishingYear, NumberOfPages, Price);
+
+				case "ATHY":
+					return $"{Author}, {Title}, \"{PublishingHouse}\", {PublishingYear}";
+
+				case "ATH":
+					return $"{Author}, {Title}, \"{PublishingHouse}\"";
+
+				case "ATY":
+					return $"{Author}, {Title}, {PublishingYear}";
+
+				case "AT":
+					return $"{Author}, {Title}";
+
+				case "IAT":
+					return $"ISBN 13: {Isbn}, {Author}, {Title}";
+
+				case "IHY":
+					return $"ISBN 13: {Isbn}, \"{PublishingHouse}\", {PublishingYear}";
+
+				default:
+					throw new FormatException($"Unknown format: {format}.");
+			}
 		}
 	}
 }
