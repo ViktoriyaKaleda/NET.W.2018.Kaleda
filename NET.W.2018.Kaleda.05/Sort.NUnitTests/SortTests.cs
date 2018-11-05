@@ -1,11 +1,14 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Sort.NUnitTests
 {
 	[TestFixture]
 	public class SortTests
 	{
+		#region Tests data
 		private static int[][] testArray =
 		{
 			new int[] { 100 },						// Max = 100, Min = 100,  Sum = 100
@@ -61,16 +64,18 @@ namespace Sort.NUnitTests
 			new int[] { 1, 2, 3 },
 			new int[] { -1, 2, 10 },
 		};
+		#endregion
 
 		[Test]
 		public void Sort_NullParameters_ArgumentNullException()
 		{
 			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(null, new Comparers.ByAscendingMaxElements()));
-			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(testArray, null));
+			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(testArray, (IComparer<int[]>)null));
+			Assert.Throws<ArgumentNullException>(() => BubbleSort.BubbleSort.Sort(testArray, (Comparison<int[]>)null));
 		}
 
 		[Test]
-		public void Sort_SortByAscendingSum_ValidResult()
+		public void SortByInterface_SortByAscendingSum_ValidResult()
 		{
 			var comparer = new Comparers.ByAscendingRowElementsSums();
 			var result = GetCopy(testArray);
@@ -80,8 +85,10 @@ namespace Sort.NUnitTests
 			CollectionAssert.AreEqual(testArraySortedByAscendingSum, result);
 		}
 
+		#region Tests for from interface method
+
 		[Test]
-		public void Sort_SortByDescendingSum_ValidResult()
+		public void SortByInterface_SortByDescendingSum_ValidResult()
 		{
 			var comparer = new Comparers.ByDescendingRowElementsSums();
 			var result = GetCopy(testArray);
@@ -92,7 +99,7 @@ namespace Sort.NUnitTests
 		}
 
 		[Test]
-		public void Sort_SortByAscendingMax_ValidResult()
+		public void SortByInterface_SortByAscendingMax_ValidResult()
 		{
 			var comparer = new Comparers.ByAscendingMaxElements();
 			var result = GetCopy(testArray);
@@ -103,7 +110,7 @@ namespace Sort.NUnitTests
 		}
 
 		[Test]
-		public void Sort_SortByDescendingMax_ValidResult()
+		public void SortByInterface_SortByDescendingMax_ValidResult()
 		{
 			var comparer = new Comparers.ByDescendingMaxElements();
 			var result = GetCopy(testArray);
@@ -114,7 +121,7 @@ namespace Sort.NUnitTests
 		}
 
 		[Test]
-		public void Sort_SortByAscendingMin_ValidResult()
+		public void SortByInterface_SortByAscendingMin_ValidResult()
 		{
 			var comparer = new Comparers.ByAscendingMinElements();
 			var result = GetCopy(testArray);
@@ -124,7 +131,7 @@ namespace Sort.NUnitTests
 			CollectionAssert.AreEqual(testArraySortedByAscendingMin, result);
 		}
 		[Test]
-		public void Sort_SortByDescendingMin_ValidResult()
+		public void SortByInterface_SortByDescendingMin_ValidResult()
 		{
 			var comparer = new Comparers.ByDescendingMinElements();
 			var result = GetCopy(testArray);
@@ -133,6 +140,77 @@ namespace Sort.NUnitTests
 
 			CollectionAssert.AreEqual(testArraySortedByDescendingMin, result);
 		}
+
+		#endregion
+
+		#region Tests for from delegate method
+
+		[Test]
+		public void SortByDelegate_SortByAscendingSum_ValidResult()
+		{
+			var comparer = new Comparers.ByAscendingRowElementsSums();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByAscendingSum, result);
+		}
+
+		[Test]
+		public void SortByDelegate_SortByDescendingSum_ValidResult()
+		{
+			var comparer = new Comparers.ByDescendingRowElementsSums();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByDescendingSum, result);
+		}
+
+		[Test]
+		public void SortByDelegate_SortByAscendingMax_ValidResult()
+		{
+			var comparer = new Comparers.ByAscendingMaxElements();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByAscendingMax, result);
+		}
+
+		[Test]
+		public void SortByDelegate_SortByDescendingMax_ValidResult()
+		{
+			var comparer = new Comparers.ByDescendingMaxElements();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByDescendingMax, result);
+		}
+
+		[Test]
+		public void SortByDelegate_SortByAscendingMin_ValidResult()
+		{
+			var comparer = new Comparers.ByAscendingMinElements();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByAscendingMin, result);
+		}
+		[Test]
+		public void SortByDelegate_SortByDescendingMin_ValidResult()
+		{
+			var comparer = new Comparers.ByDescendingMinElements();
+			var result = GetCopy(testArray);
+
+			BubbleSort.BubbleSort.Sort(result, comparer.Compare);
+
+			CollectionAssert.AreEqual(testArraySortedByDescendingMin, result);
+		}
+
+		#endregion
 
 		private int[][] GetCopy(int[][] array)
 		{
