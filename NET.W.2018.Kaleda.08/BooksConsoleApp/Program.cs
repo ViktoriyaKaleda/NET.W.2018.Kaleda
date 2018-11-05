@@ -24,7 +24,7 @@ namespace BooksConsoleApp
 			{
 				Isbn = "0-000-00000-0",
 				Author = new Author() { FirstName = "Joseph", LastName = "Albahari" },
-				Name = "C# 7.0 in a nutshell",
+				Title = "C# 7.0 in a nutshell",
 				PublishingHouse = new PublishingHouse() { Name = "O'REILLY" },
 				PublishingYear = 2017,
 				NumberOfPages = 1040,
@@ -36,7 +36,7 @@ namespace BooksConsoleApp
 			{
 				Isbn = "0-000-00000-1",
 				Author = new Author() { FirstName = "Adam", LastName = "Freeman" },
-				Name = "Pro ASP.NET Core MVC 2",
+				Title = "Pro ASP.NET Core MVC 2",
 				PublishingHouse = new PublishingHouse() { Name = "Apress" },
 				PublishingYear = 2017,
 				NumberOfPages = 1024,
