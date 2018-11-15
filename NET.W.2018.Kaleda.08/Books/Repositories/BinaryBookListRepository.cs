@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Books.Entities;
+using NLog;
 
 namespace Books.Repositories
 {
@@ -9,7 +10,9 @@ namespace Books.Repositories
 	{
 		public List<Book> Books { get; set; }
 
-		private string RepositoryFileName { get; } 
+		private string RepositoryFileName { get; }
+
+		private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public BinaryBookListRepository()
 		{
@@ -63,7 +66,10 @@ namespace Books.Repositories
 		public void AddBook(Book book)
 		{
 			if (Books.Contains(book))
+			{
+				logger.Warn($"Adding already existing book to list, book Isnb: {book.Isbn}");
 				throw new ArgumentException("This element is already exists.", nameof(book));
+			}
 
 			Books.Add(book);
 		}
@@ -76,7 +82,10 @@ namespace Books.Repositories
 		public void RemoveBook(Book book)
 		{
 			if (Books.Remove(book) == false)
+			{
+				logger.Warn($"Removing book that is not exist to list, book Isnb: {book.Isbn}");
 				throw new ArgumentException("Element not found in list.", nameof(book));
+			}
 		}
 
 		public void SaveBookList()
@@ -102,6 +111,7 @@ namespace Books.Repositories
 						writer.Write(tag);
 				}			
 			}
+			logger.Info("Book list saved.");
 		}
 
 		public void UpdateBook(Book book)

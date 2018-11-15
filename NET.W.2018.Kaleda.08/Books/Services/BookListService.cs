@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Books.Entities;
 using Books.Repositories;
+using NLog;
 
 namespace Books.Services
 {
 	public class BookListService : IBookListService
 	{
 		private IBookListRepository _repository;
+		private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public BookListService(IBookListRepository bookListRepository)
 		{
@@ -21,6 +20,7 @@ namespace Books.Services
 		{
 			_repository.AddBook(book);
 			_repository.SaveBookList();
+			logger.Info($"Book with ISBN {book.Isbn} are added.");
 		}
 
 		public List<Book> FindBooksByTag(string tag)
@@ -38,11 +38,14 @@ namespace Books.Services
 		{
 			_repository.RemoveBook(book);
 			_repository.SaveBookList();
+			logger.Info($"Book with ISBN {book.Isbn} are deleted.");
 		}
 
-		public void SortBooksByTag()
+		public void SortBooksByTag(IComparer<Book> comparer)
 		{
-			throw new NotImplementedException();
+			_repository.Books = _repository.Books.OrderBy(x => x, comparer).ToList();
+			_repository.SaveBookList();
+			logger.Info($"Books list was sorted.");
 		}
 	}
 }

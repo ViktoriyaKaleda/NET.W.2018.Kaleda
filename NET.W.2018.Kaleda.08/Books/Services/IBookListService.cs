@@ -11,6 +11,6 @@ namespace Books.Services
 
 		List<Book> FindBooksByTag(string tag);
 
-		void SortBooksByTag();
+		void SortBooksByTag(IComparer<Book> comparer);
 	}
 }
