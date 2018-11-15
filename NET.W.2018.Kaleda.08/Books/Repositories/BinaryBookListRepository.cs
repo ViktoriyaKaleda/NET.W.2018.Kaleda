@@ -6,14 +6,29 @@ using NLog;
 
 namespace Books.Repositories
 {
+	/// <summary>
+	/// Implementation of <see cref="IBookListRepository"/> for managing books that stores data in binary file.
+	/// </summary>
 	public class BinaryBookListRepository : IBookListRepository
 	{
+		/// <summary>
+		/// Collection of books.
+		/// </summary>
 		public List<Book> Books { get; set; }
 
+		/// <summary>
+		/// Name of file for storing data.
+		/// </summary>
 		private string RepositoryFileName { get; }
 
+		/// <summary>
+		/// Logger.
+		/// </summary>
 		private static Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+		/// <summary>
+		/// Reads data from binary file and initialize Books collection property.
+		/// </summary>
 		public BinaryBookListRepository()
 		{
 			Books = new List<Book>();
@@ -63,6 +78,10 @@ namespace Books.Repositories
 			}
 		}
 
+		/// <summary>
+		/// Add book to Books collection property.
+		/// </summary>
+		/// <param name="book"></param>
 		public void AddBook(Book book)
 		{
 			if (Books.Contains(book))
@@ -74,11 +93,18 @@ namespace Books.Repositories
 			Books.Add(book);
 		}
 
+		/// <summary>
+		/// Clears Books collection property.
+		/// </summary>
 		public void ClearBookList()
 		{
 			Books.Clear();
 		}
 
+		/// <summary>
+		/// Removes book from Books collection property.
+		/// </summary>
+		/// <param name="book"></param>
 		public void RemoveBook(Book book)
 		{
 			if (Books.Remove(book) == false)
@@ -88,6 +114,9 @@ namespace Books.Repositories
 			}
 		}
 
+		/// <summary>
+		/// Save Books collection property to binary file.
+		/// </summary>
 		public void SaveBookList()
 		{
 			Stream stream = File.Create(RepositoryFileName);
@@ -114,6 +143,10 @@ namespace Books.Repositories
 			logger.Info("Book list saved.");
 		}
 
+		/// <summary>
+		/// Update book in Book collection property.
+		/// </summary>
+		/// <param name="book"></param>
 		public void UpdateBook(Book book)
 		{
 			for (int i = 0; i < Books.Count; i++)
