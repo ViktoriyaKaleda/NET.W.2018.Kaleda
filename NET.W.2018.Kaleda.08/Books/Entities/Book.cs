@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Books.Entities
 {
-	public class Book : IEquatable<Book>, IFormattable
+	public class Book : IEquatable<Book>, IComparable<Book>, IFormattable
 	{
 		/// <summary>
 		/// ISBN of the book.
@@ -162,6 +162,19 @@ namespace Books.Entities
 				default:
 					throw new FormatException($"Unknown format: {format}.");
 			}
+		}
+
+		/// <summary>
+		/// Provides comparison of two books objects by their titles.
+		/// </summary>
+		/// <param name="other">Book to comparer.</param>
+		/// <returns></returns>
+		public int CompareTo(Book other)
+		{
+			if (other == null)
+				throw new ArgumentNullException(nameof(other), "Value can not be underfined");
+
+			return this.Title.CompareTo(other.Title);
 		}
 	}
 }
