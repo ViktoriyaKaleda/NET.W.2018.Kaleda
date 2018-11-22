@@ -33,7 +33,7 @@ namespace ConsolePL
 				Console.WriteLine("1. Add base account");
 				Console.WriteLine("2. Add gold account");
 				Console.WriteLine("3. Add platinum account");
-				Console.WriteLine("4. List of accounts");
+				Console.WriteLine("4. Print list of accounts");
 				Console.WriteLine("5. Wirthdraw money");
 				Console.WriteLine("6. Deposit money");
 				Console.WriteLine("7. Exit");
