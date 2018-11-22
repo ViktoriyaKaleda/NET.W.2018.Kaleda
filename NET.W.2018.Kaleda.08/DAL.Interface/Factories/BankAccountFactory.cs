@@ -7,7 +7,7 @@ namespace DAL.Interface.Factories
 	{
 		public static BankAccount Create(BankAccountType typeName, string number)
 		{
-			Type type = Type.GetType(typeName.ToString());
+			Type type = Type.GetType(typeof(BankAccount).Namespace + "." + typeName.ToString());
 			return (BankAccount)Activator.CreateInstance(type, number);
 		}
 	}

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DAL.Fake.Exceptions
+namespace DAL.Interface.Exceptions
 {
-	class BankAccountNotFoundException : ArgumentException
+	public class BankAccountNotFoundException : ArgumentException
 	{
 		public BankAccountNotFoundException() : base() { }
 

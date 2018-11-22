@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DAL.Fake.Exceptions
+namespace DAL.Interface.Exceptions
 {
-	class UnknownBankAccountTypeException : ArgumentException
+	public class UnknownBankAccountTypeException : ArgumentException
 	{
 		public UnknownBankAccountTypeException() : base() { }
 

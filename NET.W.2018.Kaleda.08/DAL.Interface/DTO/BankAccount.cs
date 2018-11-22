@@ -12,6 +12,11 @@
 
 		public BankAccountStatus Status { get; set; }
 
-		public BankAccountType AccountType { get; }
+		public virtual BankAccountType AccountType { get; }
+
+		public BankAccount() { }
+
+		public BankAccount(string number)
+			=> AccountNumber = number;
 	}
 }

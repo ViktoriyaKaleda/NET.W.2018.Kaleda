@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using DAL.Interface.DTO;
 using DAL.Interface.Interfaces;
-using DAL.Fake.Exceptions;
+using DAL.Interface.Exceptions;
 using DAL.Interface.Factories;
 
 namespace DAL.Fake.Repositories

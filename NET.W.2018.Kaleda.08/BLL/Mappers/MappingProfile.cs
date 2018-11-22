@@ -8,8 +8,14 @@ namespace BLL.Mappers
 	{
 		public MappingProfile()
 		{
-			CreateMap<AbstractBankAccount, BankAccount>();
-			CreateMap<BankAccount, AbstractBankAccount>();
+			CreateMap<AbstractBankAccount, BankAccount>()
+				.ForMember(m => m.Owner, opt => opt.MapFrom(src => src.Owner));
+
+			CreateMap<BankAccount, AbstractBankAccount>().ForMember(m => m.Owner, opt => opt.MapFrom(src => src.Owner))
+				.ForMember(m => m.Owner, opt => opt.MapFrom(src => src.Owner));
+
+			CreateMap<Interface.Entities.AccountOwner, DAL.Interface.DTO.AccountOwner>();
+			CreateMap<Interface.Entities.BankAccountType, DAL.Interface.DTO.BankAccountType>();
 		}
 	}
 }

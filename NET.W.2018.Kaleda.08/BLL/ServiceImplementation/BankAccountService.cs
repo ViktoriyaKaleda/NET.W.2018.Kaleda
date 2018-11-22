@@ -15,7 +15,7 @@ namespace BLL.ServiceImplementation
 		private readonly IBankAccountRepository _repository;
 		private readonly INumberGenerator _numberGenerator;
 
-		public List<AbstractBankAccount> Accounts { get => Mapper.Map<List<AbstractBankAccount>>(_repository.Accounts); }
+		public List<AbstractBankAccount> Accounts { get => EntitiesMapper.ToAbstractBankAccountList(_repository.Accounts); }
 
 		public BankAccountService(IBankAccountRepository repository, INumberGenerator numberGenerator)
 		{
@@ -41,7 +41,9 @@ namespace BLL.ServiceImplementation
 			newAccount.Owner = owner;
 			newAccount.Balance = balance;
 			newAccount.BonusPoints = bonusPoints;
-			_repository.AddBankAccount(Mapper.Map<DAL.Interface.DTO.BankAccount>(newAccount));
+			var a = EntitiesMapper.ToDtoBankAccont(newAccount);
+			_repository.AddBankAccount(a);
+			_repository.Save();
 
 			return newAccount.AccountNumber;
 		}
