@@ -12,15 +12,18 @@ namespace UrlParser.DAL.Repositories
 
 		private IValidator _validator;
 
-		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+		private ICustomLogger _logger;
 
-		public TextFileDataProvider(string path, IValidator validator)
+		public TextFileDataProvider(string path, IValidator validator, ICustomLogger logger)
 		{
 			if (!File.Exists(path))
 				throw new ArgumentException("File is not exists.", nameof(path));
 
 			if (validator == null)
 				_validator = new UrlValidator();
+
+			if (logger == null)
+				_logger = new NLogWrapper("NLog");
 
 			_filePath = path;
 			_validator = validator;

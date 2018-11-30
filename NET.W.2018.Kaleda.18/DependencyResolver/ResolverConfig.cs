@@ -14,10 +14,13 @@ namespace DependencyResolver
 		{
 			kernel.Bind<IValidator>().To<UrlValidator>();
 
+			kernel.Bind<ICustomLogger>().To<NLogWrapper>();
+
 			kernel.Bind<IDataProvider>()
 				.To<TextFileDataProvider>()
 				.WithConstructorArgument("path", ctx => "source.txt")
-				.WithConstructorArgument("validator", ctx => ctx.Kernel.Get<IValidator>());
+				.WithConstructorArgument("validator", ctx => ctx.Kernel.Get<IValidator>())
+				.WithConstructorArgument("logger", ctx => null);
 
 			kernel.Bind<IUrlParser>().To<UrlParser.BLL.ServiceImplementation.UrlParser>();
 
