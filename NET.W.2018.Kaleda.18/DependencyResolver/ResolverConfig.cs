@@ -12,15 +12,16 @@ namespace DependencyResolver
 	{
 		public static void ConfigurateResolver(this IKernel kernel)
 		{
-			kernel.Bind<IValidator>().To<UrlValidator>();
+			kernel.Bind<ICustomLogger>().To<NLogWrapper>()
+				.WithConstructorArgument("loggerName", ctx => "NLogWrapper");
 
-			kernel.Bind<ICustomLogger>().To<NLogWrapper>();
+			kernel.Bind<IValidator>().To<UrlValidator>();
 
 			kernel.Bind<IDataProvider>()
 				.To<TextFileDataProvider>()
 				.WithConstructorArgument("path", ctx => "source.txt")
 				.WithConstructorArgument("validator", ctx => ctx.Kernel.Get<IValidator>())
-				.WithConstructorArgument("logger", ctx => null);
+				.WithConstructorArgument("logger", ctx => ctx.Kernel.Get<ICustomLogger>());
 
 			kernel.Bind<IUrlParser>().To<UrlParser.BLL.ServiceImplementation.UrlParser>();
 
