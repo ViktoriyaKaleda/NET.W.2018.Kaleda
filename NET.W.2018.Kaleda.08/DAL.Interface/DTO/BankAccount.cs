@@ -2,6 +2,8 @@
 {
 	public class BankAccount
 	{
+		public int BankAccountId { get; set; }
+
 		public string AccountNumber { get; set; }
 
 		public AccountOwner Owner { get; set; }

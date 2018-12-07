@@ -1,6 +1,7 @@
 ﻿using BLL.Interface.Interfaces;
 using BLL.Interface.Services;
 using BLL.ServiceImplementation;
+using DAL.EF;
 using DAL.Fake.Repositories;
 using DAL.Interface.Interfaces;
 using Ninject;
@@ -14,7 +15,7 @@ namespace DependencyResolver
 			kernel.Bind<IBankAccountService>().To<BankAccountService>();
 			kernel.Bind<INumberGenerator>().To<NumberGenerator>();
 
-			kernel.Bind<IBankAccountRepository>().To<BankAccountRepository>();
+			kernel.Bind<IBankAccountRepository>().To<EFRepository>();
 		}
 	}
 }
